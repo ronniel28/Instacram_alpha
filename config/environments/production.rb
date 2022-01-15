@@ -19,20 +19,18 @@ Rails.application.configure do
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   config.require_master_key = true
-  config.action_mailer.default_url_options = { :host=> 'https://instacram-alpha.herokuapp.com' }
-  Rails.application.configure do
-    config.action_mailer.perform_caching = false
-    config.action_mailer.default_url_options = { :host=> 'instacram-alpha.herokuapp.com', :protocol => 'http' }
-    config.action_mailer.smtp_settings = {
-      address: "smtp.gmail.com",
-      port: 587,
-      authentication: "plain",
-      enable_starttls_auto: true,
-      user_name: Rails.application.credentials.gmail[:email],
-      password: Rails.application.credentials.gmail[:password], 
-      domain: "smtp.gmail.com",
-      openssl_verify_mode: "none",
-    }
+  # Define default url options for the Devise mailer
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "instacram-alpha.herokuapp.com" }
+  config.action_mailer.smtp_settings = {
+    user_name: Rails.application.credentials.gmail[:username],
+    password: Rails.application.credentials.gmail[:password],
+    domain: 'gmail.com',
+    address: 'smtp.gmail.com',
+    port: '587',
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 end
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.

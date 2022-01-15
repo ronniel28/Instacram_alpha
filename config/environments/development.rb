@@ -34,23 +34,21 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-  Rails.application.configure do
-    config.action_mailer.perform_deliveries = true
-    config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.perform_caching = false
-    config.action_mailer.default_url_options = { :host => 'http://localhost:3000' }
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-      address: "smtp.gmail.com",
-      port: 587,
-      authentication: "plain",
-      enable_starttls_auto: true,
-      user_name: Rails.application.credentials.gmail[:email],
-      password: Rails.application.credentials.gmail[:password], 
-      domain: "smtp.gmail.com",
-      openssl_verify_mode: "none",
-    }
+ # Enable sending of emails 
+ config.action_mailer.perform_deliveries = true
+
+ # Define default url options for the Devise mailer
+ config.action_mailer.delivery_method = :smtp
+ config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+ config.action_mailer.smtp_settings = {
+   user_name: Rails.application.credentials.gmail[:username],
+   password: Rails.application.credentials.gmail[:password],
+   domain: 'gmail.com',
+   address: 'smtp.gmail.com',
+   port: '587',
+   authentication: :plain,
+   enable_starttls_auto: true
+}
 end
   config.action_mailer.perform_caching = false
 
